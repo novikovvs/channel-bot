@@ -1,0 +1,11 @@
+# github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.21
+## explicit; go 1.19
+github.com/PaulSonOfLars/gotgbot/v2
+github.com/PaulSonOfLars/gotgbot/v2/ext
+github.com/PaulSonOfLars/gotgbot/v2/ext/handlers
+github.com/PaulSonOfLars/gotgbot/v2/ext/handlers/conversation
+github.com/PaulSonOfLars/gotgbot/v2/ext/handlers/filters
+github.com/PaulSonOfLars/gotgbot/v2/ext/handlers/filters/message
+# github.com/joho/godotenv v1.5.1
+## explicit; go 1.12
+github.com/joho/godotenv
