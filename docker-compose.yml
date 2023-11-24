@@ -7,9 +7,9 @@ services:
     env_file:
       - .env
     networks:
-      local:
+      - local
 
-  db:
+  postgra:
     image: postgres:13.3
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-sosiska_db}
@@ -20,7 +20,7 @@ services:
     volumes:
       - ./data/:/var/lib/postgresql/data
     networks:
-      local:
+      - local
 
 networks:
   local:

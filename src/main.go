@@ -31,11 +31,7 @@ func initialization() {
 
 	ctx := context.Background()
 
-	sosiskaDB := pg.Connect(&pg.Options{
-		User:     os.Getenv("POSTGRES_USER"),
-		Password: os.Getenv("POSTGRES_PASSWORD"),
-		Database: os.Getenv("POSTGRES_DB"),
-	})
+	sosiskaDB := getDB()
 	defer sosiskaDB.Close()
 
 	if err := sosiskaDB.Ping(ctx); err != nil {
@@ -49,6 +45,17 @@ func initialization() {
 	}
 
 	log.Println("Migrated")
+}
+
+func getDB() *pg.DB {
+	db := pg.Connect(&pg.Options{
+		User:     os.Getenv("POSTGRES_USER"),
+		Password: os.Getenv("POSTGRES_PASSWORD"),
+		Database: os.Getenv("POSTGRES_DB"),
+		Addr:     os.Getenv("POSTGRES_ADDR"),
+	})
+
+	return db
 }
 
 func createSchema(db *pg.DB) error {
@@ -68,13 +75,19 @@ func createSchema(db *pg.DB) error {
 }
 
 func main() {
-	err := godotenv.Load("../.env")
+	state := os.Getenv("STATE")
+	log.Println(os.Getenv("POSTGRES_USER"))
+	if state == "" {
+		err := godotenv.Load("../.env")
 
-	if err != nil {
-		log.Println("Error loading .env file")
+		if err != nil {
+			log.Println("Error loading .env file")
+		}
 	}
 
 	initialization()
+
+	var err error
 
 	if channelId, err = strconv.ParseInt(os.Getenv("CHANNEL_ID"), 10, 64); err != nil {
 		fmt.Println("Dont look channel")
@@ -167,11 +180,7 @@ func startCommandHandler(b *gotgbot.Bot, ctx *ext.Context) error {
 		return nil
 	}
 
-	sosiskaDB := pg.Connect(&pg.Options{
-		User:     os.Getenv("POSTGRES_USER"),
-		Password: os.Getenv("POSTGRES_PASSWORD"),
-		Database: os.Getenv("POSTGRES_DB"),
-	})
+	sosiskaDB := getDB()
 	defer sosiskaDB.Close()
 
 	_, err := sosiskaDB.Model(&User{TgUserId: int(ctx.EffectiveUser.Id)}).Insert()
