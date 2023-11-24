@@ -1,3 +1,5 @@
 /.env
 *.iml
 .idea/
+data/*
+/src/vendor/
