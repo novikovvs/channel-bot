@@ -7,6 +7,8 @@ WORKDIR /app
 
 COPY ./src .
 
+RUN go mod vendor
+
 RUN go build -mod vendor -o /app/dist/pusher .
 
 FROM alpine
