@@ -25,4 +25,4 @@ services:
 networks:
   local:
     name: local
-    external: true
+    external: false
